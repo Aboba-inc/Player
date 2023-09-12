@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using static Player.ViewModels.PlayerViewModel;
+using static System.Net.WebRequestMethods;
 
 namespace Player.ViewModels
 {
@@ -15,82 +17,89 @@ namespace Player.ViewModels
         [ObservableProperty]
         public Folder selectedFolder;
 
-        public string strFolder { get; set; }
-
         public PlayerViewModel()
         {
-            strFolder = @"D:\Топ музон";
-            Folders = GetSubfolders(strFolder);
-            
+            Folders = GetSubfolders(@"D:");
         }
 
-        public ObservableCollection<Folder> GetSubfolders(string strPath)
+        public ObservableCollection<Folder> GetSubfolders(string path)
         {
             ObservableCollection<Folder> subfolders = new ObservableCollection<Folder>();
-            string[] subdirs = Directory.GetDirectories(strPath, "*", SearchOption.TopDirectoryOnly);
+            string[] subfoldersNames = Directory.GetDirectories(path, "*", SearchOption.TopDirectoryOnly);
 
-            foreach (string dir in subdirs)
+            foreach (string dir in subfoldersNames)
             {
-                Folder thisnode = new Folder(dir);
+                Folder currentFolder = new Folder(dir);
 
-                if (!dir.Contains("System Volume Information"))
+                int count = GetCountOfDirectories(dir);
+                if (count >= 0)
                 {
-                    //var files = Directory.GetFiles(dir, @"*(\.mp3|\.wav|\.flac)$", SearchOption.AllDirectories);
-                    if (Directory.GetDirectories(dir, "*", SearchOption.TopDirectoryOnly).Length > 0)
+                    if (count > 0)
                     {
-                        thisnode.Subfolders = new ObservableCollection<Folder>();
-                        thisnode.Subfolders = GetSubfolders(dir);
+                        currentFolder.Subfolders = GetSubfolders(dir);
                     }
-
-                    var allowedExtensions = new[] { ".mp3", ".flac", ".wav" };
-                    var files = Directory
-                        .GetFiles(dir, "*", SearchOption.AllDirectories)
-                        .Where(file => allowedExtensions.Any(file.ToLower().EndsWith))
-                        .ToArray();
-
-                    if (files.Length > 0)
-                    {
-                        thisnode.Files = new ObservableCollection<FileInfo>();
-                        foreach (string f in files)
-                        {
-                            FileInfo file = new FileInfo(f);
-                            thisnode.Files.Add(file);
-                        }
-                    }
+                    currentFolder.Files = GetFiles(dir, new[] { ".mp3", ".flac", ".wav" });
                 }
 
-                subfolders.Add(thisnode);
+                subfolders.Add(currentFolder);
             }
 
             return subfolders;
         }
-
-        public class Folder
+        private ObservableCollection<FileInfo> GetFiles(string path, string[]? extensions = null)
         {
-            public ObservableCollection<Folder>? Subfolders { get; set; }
-            public ObservableCollection<FileInfo>? Files { get; set; }
-            public string Name { get; }
-            public string Path { get; }
+            extensions ??= new[] { ".mp3", ".flac", ".wav" };
+            var files = Directory
+                .GetFiles(path, "*", SearchOption.AllDirectories)
+                .Where(file => extensions.Any(file.ToLower().EndsWith))
+                .ToArray();
 
-            public Folder(string path)
+            var filesInfo = new ObservableCollection<FileInfo>();
+
+            foreach (string f in files)
             {
-                Path = path;
-                Name = System.IO.Path.GetFileName(path);
+                FileInfo file = new FileInfo(f);
+                filesInfo.Add(file);
             }
+
+            return filesInfo;
         }
 
-        public class File
+        /// <summary>
+        /// Get count of subdirectories if directory at the given <paramref name="path"/> is accessible. Otherwise returns -1.
+        /// </summary>
+        /// <param name="path"> Path to the directory. </param>
+        /// <returns>
+        /// -1 if access is denied.
+        /// Any other non negative number if directory is accessible.
+        /// </returns>
+        private int GetCountOfDirectories(string path)
         {
-            public string Name { get; }
-            public string Path { get; }
-            public string Extension { get; }
-
-            public File(string path)
+            int count;
+            try
             {
-                Path = path;
-                Name = System.IO.Path.GetFileName(path);
-                Extension = System.IO.Path.GetExtension(path);
+                count = Directory.GetDirectories(path, "*", SearchOption.TopDirectoryOnly).Length;
             }
+            catch
+            {
+                return -1;
+            }
+
+            return count;
+        }     
+    }
+
+    public class Folder
+    {
+        public ObservableCollection<Folder>? Subfolders { get; set; }
+        public ObservableCollection<FileInfo>? Files { get; set; }
+        public string Name { get; }
+        public string Path { get; }
+
+        public Folder(string path)
+        {
+            Path = path;
+            Name = System.IO.Path.GetFileName(path);
         }
     }
 }
