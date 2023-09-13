@@ -10,7 +10,7 @@
 		<vm:PlayerViewModel />
 	</Design.DataContext>-->
 
-	<Grid ColumnDefinitions="*, 1, 2*, 1, *">
+	<Grid ColumnDefinitions="*, 0, 2*, 0, *">
 
 		<TreeView ItemsSource="{Binding Folders}"
 				  Grid.Column="0"
@@ -19,10 +19,10 @@
 				<TreeDataTemplate ItemsSource="{Binding Subfolders}">
 					<TextBlock Text="{Binding Name}"/>
 				</TreeDataTemplate>
-			</TreeView.ItemTemplate>
+			</TreeView.ItemTemplate>			
 		</TreeView>
 
-		<GridSplitter Grid.Column="1"/>
+		<GridSplitter Grid.Column="1" Background="#141414"/>
 
 		<DataGrid Grid.Column="2"
 				  ItemsSource="{Binding SelectedFolder.Files}"
@@ -31,11 +31,6 @@
 				<DataGridTextColumn Header="Title"  Binding="{Binding Name}"/>
 				<!--<DataGridTextColumn Header="Surname" Binding="{Binding LastName}" />-->
 			</DataGrid.Columns>
-			<DataGrid.Styles>
-				<Style Selector="DataGridRow:nth-child(2n)">
-					<Setter Property="Background" Value="Gray"/>
-				</Style>
-			</DataGrid.Styles>
 		</DataGrid>
 
 		<!--<DataGrid Grid.Column="2"
@@ -48,7 +43,8 @@
 				  BorderBrush="Gray">
 		</DataGrid>-->
 
-		<GridSplitter Grid.Column="3"/>
+		<GridSplitter Grid.Column="3"
+					  Background="#141414"/>
 
 		<Grid Background="#1E1E1E"
 				Grid.Column="4">
