@@ -15,7 +15,7 @@ namespace Player.ViewModels
         public ObservableCollection<Folder> folders;
 
         [ObservableProperty]
-        public Folder selectedFolder;
+        public Folder? selectedFolder;
 
         public PlayerViewModel()
         {
@@ -27,18 +27,18 @@ namespace Player.ViewModels
             ObservableCollection<Folder> subfolders = new ObservableCollection<Folder>();
             string[] subfoldersNames = Directory.GetDirectories(path, "*", SearchOption.TopDirectoryOnly);
 
-            foreach (string dir in subfoldersNames)
+            foreach (string folder in subfoldersNames)
             {
-                Folder currentFolder = new Folder(dir);
+                Folder currentFolder = new Folder(folder);
 
-                int count = GetCountOfDirectories(dir);
+                int count = GetSubfoldersCount(folder);
                 if (count >= 0)
                 {
                     if (count > 0)
                     {
-                        currentFolder.Subfolders = GetSubfolders(dir);
+                        currentFolder.Subfolders = GetSubfolders(folder);
                     }
-                    currentFolder.Files = GetFiles(dir, new[] { ".mp3", ".flac", ".wav" });
+                    currentFolder.Files = GetFiles(folder, new[] { ".mp3", ".flac", ".wav" });
                 }
 
                 subfolders.Add(currentFolder);
@@ -73,7 +73,7 @@ namespace Player.ViewModels
         /// -1 if access is denied.
         /// Any other non negative number if directory is accessible.
         /// </returns>
-        private int GetCountOfDirectories(string path)
+        private int GetSubfoldersCount(string path)
         {
             int count;
             try
