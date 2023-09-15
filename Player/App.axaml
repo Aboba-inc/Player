@@ -44,14 +44,8 @@
 										x:Name="HorizontalTemplate"
 										MinHeight="{DynamicResource SliderHorizontalHeight}"
 										ColumnDefinitions="Auto,Auto,*">
-										<Grid.RowDefinitions>
-											<RowDefinition Height="{DynamicResource SliderPreContentMargin}" />
-											<RowDefinition Height="Auto" />
-											<RowDefinition Height="{DynamicResource SliderPostContentMargin}" />
-										</Grid.RowDefinitions>
 										<Track
 											Name="PART_Track"
-											Grid.Row="1"
 											Grid.ColumnSpan="3"
 											Minimum="{TemplateBinding Minimum}"
 											Maximum="{TemplateBinding Maximum}"
@@ -86,8 +80,6 @@
 												Height="10"
 												Margin="0"
 												Padding="0"
-												Background="{DynamicResource SliderThumbBackground}"
-												BorderThickness=""
 												DataContext="{TemplateBinding Value}"/>
 										</Track>
 									</Grid>
@@ -141,11 +133,6 @@
 			<Setter Property="Background" Value="#262626"/>
 		</Style>
 
-		<Style Selector="TreeViewItem /template/ ToggleButton">
-			<Setter Property="Foreground" Value="#AAAAAA">
-			</Setter>
-		</Style>
-
 		<!-- ========== Data grid ========== -->
 		<Style Selector="DataGrid">
 			<Setter Property="Background" Value="#1E1E1E"/>
@@ -184,6 +171,19 @@
 				</Style>
 				<Style Selector="^ Svg.play">
 					<Setter Property="IsVisible" Value="True"/>
+				</Style>
+			</Style>
+		</Style>
+
+		<Style Selector="Button.previous_next">
+			<Style Selector="^:pressed">
+				<Style Selector="^ /template/ ContentPresenter">
+					<Setter Property="Background" Value="Transparent"/>
+				</Style>
+			</Style>
+			<Style Selector="^:pointerover">
+				<Style Selector="^ /template/ ContentPresenter">
+					<Setter Property="Background" Value="Transparent"/>
 				</Style>
 			</Style>
 		</Style>

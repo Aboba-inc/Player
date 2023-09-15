@@ -19,15 +19,13 @@
 		<!--<views:MainView />-->
 		<Grid RowDefinitions="Auto, *, Auto">
 
+			<!-- Title bar -->
 			<controls:MainTitleBar IsSeamless="True"
 								   Background="#1E1E1E"
 								   Grid.Row="0"/>
 
 			<views:PlayerView Grid.Row="1"/>
-
-			<Border Grid.Row="2"
-					Background="#1E1E1E"
-					Height="80"/>
+			
 			<!--<ProgressBar Grid.Row="2"
 						 Width="400"
 						 Height="8"
@@ -42,23 +40,52 @@
 				</ProgressBar.Foreground>
 			</ProgressBar>-->
 
+			<!-- Audio control panel -->
 			<Grid Grid.Row="2"
-				  ColumnDefinitions="40, 40, 40, *">
+				  Background="#1E1E1E"
+				  Height="80"
+				  ColumnDefinitions="18, Auto, Auto, Auto, *">
 
-				<ToggleButton Grid.Column="1"
+				<Button Grid.Column="1"
+						Background="Transparent"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						Classes="previous_next">
+					<Svg Path="/Assets/previous.svg"
+						 Height="22"/>
+				</Button>
+
+				<!-- Play/pause button -->
+				<ToggleButton Grid.Column="2"
 							  Padding="0"
-							  Classes="play_pause">
+							  Classes="play_pause"
+							  HorizontalAlignment="Center"
+							  VerticalAlignment="Center">
 					<Grid>
 						<Svg Path="/Assets/play.svg"
-							 Classes="play"/>
-						<Svg Path="/Assets/pause.svg"
-							 Classes="pause"/>
+							 Classes="play"
+							 Height="45"/>
+						<Svg Path="/Assets/pause_2.svg"
+							 Classes="pause"
+							 Height="45"/>
 					</Grid>
 				</ToggleButton>
 
+				<Button Grid.Column="3"
+						Background="Transparent"
+						Classes="previous_next"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center">
+					<Svg Path="/Assets/next.svg"
+						 Height="22"/>
+				</Button>
+
+				<!-- Timeline slider -->
 				<Slider Classes="timeline"
-						Grid.Column="3"
-						Height="20">
+						Grid.Column="4"
+						Height="20"
+						Margin="20, 0"
+						VerticalAlignment="Center">
 				</Slider>
 			</Grid>
 

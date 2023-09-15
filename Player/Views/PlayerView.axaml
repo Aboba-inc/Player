@@ -19,7 +19,7 @@
 				<TreeDataTemplate ItemsSource="{Binding Subfolders}">
 					<TextBlock Text="{Binding Name}"/>
 				</TreeDataTemplate>
-			</TreeView.ItemTemplate>			
+			</TreeView.ItemTemplate>
 		</TreeView>
 
 		<GridSplitter Grid.Column="1" Background="#141414"/>
