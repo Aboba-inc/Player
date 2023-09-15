@@ -1,11 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using static Player.ViewModels.PlayerViewModel;
-using static System.Net.WebRequestMethods;
 
 namespace Player.ViewModels
 {

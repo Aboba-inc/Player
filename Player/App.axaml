@@ -162,6 +162,32 @@
 			<Setter Property="Background" Value="#1E1E1E"/>
 		</Style>
 
+		<!-- ========== Toggle button (play/pause) ========== -->
+		<Style Selector="ToggleButton.play_pause">
+			<Style Selector="^:checked">
+				<Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="Background" Value="Transparent" />
+				</Style>
+				<Style Selector="^ Svg.pause">
+					<Setter Property="IsVisible" Value="True"/>
+				</Style>
+				<Style Selector="^ Svg.play">
+					<Setter Property="IsVisible" Value="False"/>
+				</Style>
+			</Style>
+			<Style Selector="^:unchecked">
+				<Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="Background" Value="Transparent" />
+				</Style>
+				<Style Selector="^ Svg.pause">
+					<Setter Property="IsVisible" Value="False"/>
+				</Style>
+				<Style Selector="^ Svg.play">
+					<Setter Property="IsVisible" Value="True"/>
+				</Style>
+			</Style>
+		</Style>
+
 	</Application.Styles>
 
 	<Application.Resources>

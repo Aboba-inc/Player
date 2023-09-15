@@ -13,7 +13,7 @@
 		ExtendClientAreaToDecorationsHint="True"
 		ExtendClientAreaChromeHints="NoChrome"
 		ExtendClientAreaTitleBarHeightHint="-1">
-	
+
 
 	<Grid>
 		<!--<views:MainView />-->
@@ -41,12 +41,28 @@
 					</LinearGradientBrush>
 				</ProgressBar.Foreground>
 			</ProgressBar>-->
-			
-			<Slider Classes="timeline"
-					Grid.Row="2"
-					Width="600"
-					Height="20">
-			</Slider>
+
+			<Grid Grid.Row="2"
+				  ColumnDefinitions="40, 40, 40, *">
+
+				<ToggleButton Grid.Column="1"
+							  Padding="0"
+							  Classes="play_pause">
+					<Grid>
+						<Svg Path="/Assets/play.svg"
+							 Classes="play"/>
+						<Svg Path="/Assets/pause.svg"
+							 Classes="pause"/>
+					</Grid>
+				</ToggleButton>
+
+				<Slider Classes="timeline"
+						Grid.Column="3"
+						Height="20">
+				</Slider>
+			</Grid>
+
+
 		</Grid>
 	</Grid>
 </Window>
