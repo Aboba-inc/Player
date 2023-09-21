@@ -3,6 +3,8 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
+    <Platforms>AnyCPU;x64;x86</Platforms>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   
@@ -23,6 +25,7 @@
     <PackageReference Include="ManagedBass" Version="3.1.1" />
     <PackageReference Include="NAudio" Version="2.2.1" />
     <PackageReference Include="System.Reactive" Version="6.0.0" />
+    <PackageReference Include="z440.atl.core" Version="5.7.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,5 +35,9 @@
     <Compile Update="Views\CustomControls\MainTitleBar.axaml.cs">
       <DependentUpon>MainTitleBar.axaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Plugins\" />
   </ItemGroup>
 </Project>

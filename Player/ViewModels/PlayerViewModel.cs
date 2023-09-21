@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Player.Models;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -11,11 +13,25 @@ namespace Player.ViewModels
         public ObservableCollection<Folder> folders;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(Tracks))]
         public Folder? selectedFolder;
+
+        public List<Track> Tracks
+        {
+            get
+            {
+                var tracks = new List<Track>();
+                foreach (var file in SelectedFolder?.Files)
+                {
+                    tracks.Add(new Track(file));
+                }
+                return tracks;
+            }
+        }
 
         public PlayerViewModel()
         {
-            Folders = GetSubfolders(@"D:");
+            Folders = GetSubfolders(@"D:\Топ музон");
         }
 
         public ObservableCollection<Folder> GetSubfolders(string path)
@@ -42,7 +58,7 @@ namespace Player.ViewModels
 
             return subfolders;
         }
-        private ObservableCollection<FileInfo> GetFiles(string path, string[]? extensions = null)
+        private ObservableCollection<string> GetFiles(string path, string[]? extensions = null)
         {
             extensions ??= new[] { ".mp3", ".flac", ".wav" };
             var files = Directory
@@ -50,13 +66,7 @@ namespace Player.ViewModels
                 .Where(file => extensions.Any(file.ToLower().EndsWith))
                 .ToArray();
 
-            var filesInfo = new ObservableCollection<FileInfo>();
-
-            foreach (string f in files)
-            {
-                FileInfo file = new FileInfo(f);
-                filesInfo.Add(file);
-            }
+            var filesInfo = new ObservableCollection<string>(files);
 
             return filesInfo;
         }
@@ -82,13 +92,13 @@ namespace Player.ViewModels
             }
 
             return count;
-        }     
+        }
     }
 
     public class Folder
     {
         public ObservableCollection<Folder>? Subfolders { get; set; }
-        public ObservableCollection<FileInfo>? Files { get; set; }
+        public ObservableCollection<string>? Files { get; set; }
         public string Name { get; }
         public string Path { get; }
 
